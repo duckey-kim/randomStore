@@ -1,0 +1,64 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+    tomcat:
+      threads:
+        max: 512
+        min-spare: 50
+      max-connections: 1024
+
+
+loggin:
+  file:
+    path: logs
+  level:
+    org.springframework: INFO
+    org.springframework.web: INFO
+    com.deliciousstore : INFO
+
+randomstore:
+  db:
+    host: localhost
+    setting-params: zeroDateTimeBehavior=convertToNull&
+      useUnicode=true&
+      characterEncoding=UTF-8&
+      autoReconnect=true&
+      useSSL=false&
+      requireSSL=false&
+      serverTimezone=Asia/Seoul&
+      allowPublicKeyRetrieval=true
+
+spring:
+  application:
+    name: random-store
+
+  datasource:
+    url: jdbc:mysql://${randomstore.db.host}:3306/randomstore?${randomstore.db.setting-params}
+    hikari:
+      username: randomstore
+      password: 1243
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      maximum-poll-size: 50
+      minimum-idle: 10
+      connection-test-query: select 1
+
+  jpa:
+    show-sql: false
+    open-in-view: off
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+
+
+
+
+management:
+  endpoint:
+    web:
+      base-path: /_stats
+      exposure:
+        include: [ "health"]
